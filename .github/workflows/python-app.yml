@@ -37,8 +37,8 @@ jobs:
     - name: build
       run: |
         fbs freeze
-        git status
-        git add .
-        git commit -m "Auto updating target"
-        git fetch origin master
-        git push origin HEAD:master
+    - name: upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifact
+        path: target/DOCC/DOCC
