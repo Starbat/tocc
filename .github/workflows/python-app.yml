@@ -37,3 +37,8 @@ jobs:
     - name: build
       run: |
         fbs freeze
+        git status
+        git add .
+        git commit -m "Auto updating target"
+        git fetch origin master
+        git push origin HEAD:master
