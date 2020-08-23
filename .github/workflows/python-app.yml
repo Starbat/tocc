@@ -43,7 +43,7 @@ jobs:
         name: docc-ubuntu
         path: target/DOCC
 
-build_windows:
+  build_windows:
 
     runs-on: windows-latest
 
