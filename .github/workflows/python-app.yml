@@ -41,4 +41,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: artifact
-        path: target/DOCC/DOCC
+        path: target
