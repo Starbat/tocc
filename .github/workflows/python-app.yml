@@ -40,8 +40,8 @@ jobs:
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: docc-ubuntu
-        path: target/DOCC
+        name: tocc-ubuntu
+        path: target/tocc
 
   build_windows:
 
@@ -76,5 +76,5 @@ jobs:
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: docc-windows
-        path: target/DOCC
+        name: tocc-windows
+        path: target/tocc

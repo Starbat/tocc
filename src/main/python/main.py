@@ -15,7 +15,7 @@ def main():
                 See <https://www.gnu.org/licenses/gpl-3.0>.
              """
 
-    parser = argparse.ArgumentParser(prog='TOCC',
+    parser = argparse.ArgumentParser(prog='tocc',
                                      description=description,
                                      epilog=epilog)
 
