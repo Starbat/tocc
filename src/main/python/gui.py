@@ -1,10 +1,9 @@
 import os
 from fbs_runtime.application_context.PyQt5 import (ApplicationContext,
                                                    cached_property)
-from PyQt5.QtWidgets import (QMainWindow, QLabel, QPushButton, QVBoxLayout,
-                             QFileDialog, QErrorMessage, QMessageBox)
+from PyQt5.QtWidgets import (QMainWindow, QFileDialog)
 from PyQt5 import QtSvg, uic
-from table_transformer import TableTransformer
+from table_transformer import TableTransformer, get_extractors
 
 
 class AppContext(ApplicationContext):
@@ -65,8 +64,11 @@ class MainWindow(QMainWindow):
         elif not os.path.isdir(output_folder):
             self.statusBar().showMessage('No valid output directory!')
         else:
-            self.transformer = TableTransformer(input_file)
-            self.transformer.main()
+            extractors = get_extractors(
+                                    measurements=self.measurements.isChecked(),
+                                    summaries=self.summaries.isChecked())
+            self.transformer = TableTransformer(input_file, *extractors)
+            self.transformer.run()
 
     def select_input_file(self):
         path = QFileDialog.getOpenFileName(self, 'Select File')
