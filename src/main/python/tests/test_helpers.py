@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import pytest
 from transformer.summary_extractor import SummaryExtractor
 from transformer.measurement_extractor import MeasurementExtractor
@@ -10,7 +8,6 @@ def test_get_summary_extractor():
     output = get_extractors(summaries=True)
     assert type(output[0]) == SummaryExtractor
     assert len(output) == 1
-
 
 
 def test_get_measurement_extractor():
