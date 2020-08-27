@@ -41,7 +41,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: tocc-ubuntu
-        path: target/
+        path: |
+          target/
+          !target/PyInstaller
 
   build_windows:
 
@@ -77,4 +79,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: tocc-windows
-        path: target/
+        path: |
+          target/
+          !target/PyInstaller
