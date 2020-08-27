@@ -3,7 +3,7 @@ from fbs_runtime.application_context.PyQt5 import (ApplicationContext,
                                                    cached_property)
 from PyQt5.QtWidgets import (QMainWindow, QFileDialog)
 from PyQt5 import QtSvg, uic
-from table_transformer import TableTransformer, get_extractors
+from transformer import TableTransformer, get_extractors
 
 
 class AppContext(ApplicationContext):

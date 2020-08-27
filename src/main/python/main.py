@@ -1,7 +1,7 @@
 import sys
 import argparse
 from gui import AppContext
-from table_transformer import TableTransformer, get_extractors
+from transformer import TableTransformer, get_extractors
 
 
 def main():
@@ -53,6 +53,7 @@ def main():
         appctxt = AppContext()         # 1. Instantiate ApplicationContext
         exit_code = appctxt.run()      # 2. Invoke appctxt.app.exec_()
         sys.exit(exit_code)
+
 
 if __name__ == "__main__":
     main()
