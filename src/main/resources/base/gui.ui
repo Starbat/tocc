@@ -15,75 +15,8 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QPushButton" name="outputButton">
-      <property name="text">
-       <string>Output path</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>images/iconmonstr-folder-9.svg</normaloff>images/iconmonstr-folder-9.svg</iconset>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="exitButton">
-      <property name="text">
-       <string>Exit</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>images/iconmonstr-door-6.svg</normaloff>images/iconmonstr-door-6.svg</iconset>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="inputLine"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="startButton">
-      <property name="text">
-       <string>Start</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>images/iconmonstr-arrow-34.svg</normaloff>images/iconmonstr-arrow-34.svg</iconset>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="outputLine"/>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="inputButton">
-      <property name="text">
-       <string>Select file</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>images/iconmonstr-folder-9.svg</normaloff>images/iconmonstr-folder-9.svg</iconset>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QProgressBar" name="progressBar">
-      <property name="value">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Select output tables:</string>
-      </property>
-     </widget>
     </item>
     <item row="2" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -108,6 +41,83 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="inputButton">
+      <property name="text">
+       <string>Select file</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="outputButton">
+      <property name="text">
+       <string>Output path</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QPushButton" name="startButton">
+      <property name="text">
+       <string>Start</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-arrow-34.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-arrow-34.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="outputLine"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Select output tables:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Select output columns:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QGridLayout" name="summaryCols"/>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="measurementCols"/>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="0">
+     <widget class="QPushButton" name="exitButton">
+      <property name="text">
+       <string>Exit</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-door-6.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-door-6.svg</iconset>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

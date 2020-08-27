@@ -1,2 +1,3 @@
 from .table_transformer import TableTransformer
-from .helpers import get_extractors
+from .summary_extractor import SummaryExtractor
+from .measurement_extractor import MeasurementExtractor
