@@ -1,4 +1,3 @@
-import pytest
 from transformer.summary_extractor import SummaryExtractor
 from transformer.measurement_extractor import MeasurementExtractor
 from transformer.helpers import get_extractors

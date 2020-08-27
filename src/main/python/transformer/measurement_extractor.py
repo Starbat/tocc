@@ -11,7 +11,7 @@ class MeasurementExtractor(Extractor):
         Feature('TIC_integral', 4),
         Feature('TC_integral', 5),
         Feature('X_integral', 6),
-        Feature('datetime', 7),
+        Feature('datetime', 7, modifier='split_datetime'),
     )
     NAME = 'measurements'
 

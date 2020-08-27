@@ -20,7 +20,11 @@ class Extractor:
         self.rows = [row for row in data if self._is_match(row)]
 
     def get_header_row(self):
-        return [f.name for f in self.get_selected_features()]
+        header_row = []
+        for feature in self.get_selected_features():
+            for col in feature.get_new_cols():
+                header_row.append(col)
+        return header_row
 
     def get_selected_features(self):
         return [f for f in sorted(self.FEATURES) if f.selected]
@@ -32,7 +36,8 @@ class Extractor:
             for feature in self.get_selected_features():
                 field = row[feature.col]
                 modified = feature.modify(field)
-                newrow.append(modified)
+                for new_field in modified:
+                    newrow.append(new_field)
             table.append(newrow)
         return table
 
