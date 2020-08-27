@@ -4,7 +4,7 @@ from .extractor import Extractor
 
 class SummaryExtractor(Extractor):
     FEATURES = (
-        Feature('date', 0, modifier='split_datetime'),
+        Feature('time', 0, modifier='split_datetime'),
         Feature('No', 1),
         Feature('sample', 2),
         Feature('method', 3),
