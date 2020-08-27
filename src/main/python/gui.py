@@ -61,10 +61,12 @@ class MainWindow(QMainWindow):
     def create_column_checkboxes(self):
         for feature in SummaryExtractor().get_features_names():
             c = QCheckBox(feature)
+            c.setChecked(True)
             self.summaryCols.addWidget(c)
         self.summaryCols.setEnabled(False)
         for feature in MeasurementExtractor().get_features_names():
             c = QCheckBox(feature)
+            c.setChecked(True)
             c.setEnabled(False)
             self.measurementCols.addWidget(c)
 
