@@ -29,17 +29,20 @@ class Extractor:
     def get_selected_features(self):
         return [f for f in sorted(self.FEATURES) if f.selected]
 
-    def create_table(self):
+    def create_table(self) -> list:
         table = [self.get_header_row()]
         for row in self.rows:
-            newrow = []
-            for feature in self.get_selected_features():
-                field = row[feature.col]
-                modified = feature.modify(field)
-                for new_field in modified:
-                    newrow.append(new_field)
+            newrow = self._create_new_row(row)
             table.append(newrow)
         return table
+
+    def _create_new_row(self, row: list) -> list:
+        newrow = []
+        for feature in self.get_selected_features():
+            newfields = feature.modify(row[feature.col])
+            for field in newfields:
+                newrow.append(field)
+        return newrow
 
     def get_features_names(self):
         return [f.name for f in self.FEATURES]

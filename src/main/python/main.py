@@ -43,10 +43,9 @@ def main():
 
     args = parser.parse_args()
 
-    extractors = get_extractors(measurements=args.measurements,
-                                summaries=args.summaries)
-
     if args.cli:
+        extractors = get_extractors(measurements=args.measurements,
+                                    summaries=args.summaries)
         transformer = TableTransformer(args.cli[0], *extractors)
         transformer.run()
     else:

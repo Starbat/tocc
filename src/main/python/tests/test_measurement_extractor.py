@@ -10,4 +10,4 @@ def test_measurement_record_is_match(measurement_record):
 def test_summary_record_is_no_match(summary_record):
     me = MeasurementExtractor()
     match = me._is_match(summary_record)
-    assert match is False
+    assert not match
