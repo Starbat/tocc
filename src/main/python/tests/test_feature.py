@@ -18,36 +18,16 @@ def test_modify_if_modifier_is_not_set():
     assert output == (date,)
 
 
-def test_split_datetime():
-    datetime = '25.03.2019 09:47'
+@patch('transformer.feature.ModifierFactory.get_instance')
+def test_get_modifier(mock_get_instance):
+    modifier_factory = mock_get_instance.return_value = Mock()
     f = Feature('date', 0)
-    date, time = f._split_datetime(datetime)
-    assert date == '25.03.2019'
-    assert time == '09:47'
 
-
-def test_extract_number():
-    f = Feature('date', 0)
-    field = 'TC:   0,26'
-    output = f._extract_number(field)
-    assert output == ('0,26',)
-
-
-def test_extract_number_if_not_existing():
-    f = Feature('date', 0)
-    field = 'TNb: '
-    output = f._extract_number(field)
-    assert output == ('NA',)
-
-
-def test_set_modifier():
-    f = Feature('date', 0)
-    f._set_modifier('split_datetime')
-    assert f.modifier.function == f._split_datetime
-    assert f.modifier.new_cols == ('date', 'time')
-    f._set_modifier('extract_number')
-    assert f.modifier.function == f._extract_number
-    assert f.modifier.new_cols == ('date',)
+    name = 'test name'
+    new_col_name = 'test_col_name'
+    output = f._get_modifier(name, new_col_name)
+    mock_get_instance.assert_called()
+    modifier_factory.get_modifier.assert_called_with(name, new_col_name)
 
 
 def test_get_new_cols():
