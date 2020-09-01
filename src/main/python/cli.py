@@ -27,7 +27,7 @@ class CLI:
         description = """Extract measurements or summaries to new csv tables.
                          To run in gui mode specify no arguments.
                          """
-        epilog = """DOCC  Copyright (C) 2020  Till Schröder
+        epilog = """tocc  Copyright (C) 2020  Till Schröder
                     This program comes with ABSOLUTELY NO WARRANTY.
                     This is free software, and you are welcome to redistribute it
                     under certain conditions.

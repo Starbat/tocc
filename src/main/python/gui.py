@@ -41,6 +41,8 @@ class AppContext(ApplicationContext):
 
     def run(self):
         self.app.setStyle('Fusion')
+        self.main_window.setWindowTitle(self.build_settings['app_name'] + ' ' +
+                                        self.build_settings['version'])
         self.main_window.show()
         return self.app.exec_()
 
