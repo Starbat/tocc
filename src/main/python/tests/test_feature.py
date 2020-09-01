@@ -28,6 +28,7 @@ def test_get_modifier(mock_get_instance):
     output = f._get_modifier(name, new_col_name)
     mock_get_instance.assert_called()
     modifier_factory.get_modifier.assert_called_with(name, new_col_name)
+    assert output
 
 
 def test_get_new_cols():
