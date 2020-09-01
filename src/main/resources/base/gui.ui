@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,23 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>12</number>
+    </property>
+    <property name="topMargin">
+     <number>6</number>
+    </property>
+    <property name="rightMargin">
+     <number>12</number>
+    </property>
+    <property name="bottomMargin">
+     <number>6</number>
+    </property>
     <item row="0" column="1">
      <widget class="QLineEdit" name="inputLine"/>
     </item>
     <item row="2" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="outputTables">
       <item>
        <widget class="QCheckBox" name="summaries">
         <property name="text">
@@ -49,7 +61,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</iconset>
+        <normaloff>images/iconmonstr-folder-9.svg</normaloff>images/iconmonstr-folder-9.svg</iconset>
       </property>
      </widget>
     </item>
@@ -60,7 +72,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-folder-9.svg</iconset>
+        <normaloff>images/iconmonstr-folder-9.svg</normaloff>images/iconmonstr-folder-9.svg</iconset>
       </property>
      </widget>
     </item>
@@ -71,7 +83,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-arrow-34.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-arrow-34.svg</iconset>
+        <normaloff>images/iconmonstr-arrow-34.svg</normaloff>images/iconmonstr-arrow-34.svg</iconset>
       </property>
      </widget>
     </item>
@@ -82,8 +94,8 @@
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -115,7 +127,20 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-door-6.svg</normaloff>../../../../../../Tresore/Offene_Tesore/Eigene_Dateien/Dokumente/Software_Projekte/tocc/src/main/resources/base/images/iconmonstr-door-6.svg</iconset>
+        <normaloff>images/iconmonstr-door-6.svg</normaloff>images/iconmonstr-door-6.svg</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QPlainTextEdit" name="feedback">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

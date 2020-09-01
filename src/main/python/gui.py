@@ -1,9 +1,12 @@
 import os
+from logging import getLogger, INFO, Handler
 from fbs_runtime.application_context.PyQt5 import (ApplicationContext,
                                                    cached_property)
 from PyQt5.QtWidgets import (QMainWindow, QFileDialog, QCheckBox)
-from PyQt5 import QtSvg, uic
-from transformer import TableTransformer, SummaryExtractor, MeasurementExtractor
+from PyQt5 import uic
+from PyQt5.QtGui import QPixmap
+from transformer import (TableTransformer, SummaryExtractor,
+                         MeasurementExtractor)
 
 
 class AppContext(ApplicationContext):
@@ -14,18 +17,23 @@ class AppContext(ApplicationContext):
 
     @cached_property
     def img_folder(self):
-        resource = 'images/iconmonstr-folder-9.svg'
-        return QtSvg.QSvgWidget(self.get_resource(resource))
+        resource = 'images/iconmonstr-folder-9-240.png'
+        return QPixmap(self.get_resource(resource))
 
     @cached_property
     def img_door(self):
-        resource = 'images/iconmonstr-door-6.svg'
-        return QtSvg.QSvgWidget(self.get_resource(resource))
+        resource = 'images/iconmonstr-door-6-240.png'
+        return QPixmap(self.get_resource(resource))
 
     @cached_property
     def img_arrow(self):
-        resource = 'images/iconmonstr-arrow-34.svg'
-        return QtSvg.QSvgWidget(self.get_resource(resource))
+        resource = 'images/iconmonstr-arrow-34-240.png'
+        return QPixmap(self.get_resource(resource))
+
+    @cached_property
+    def img_check(self):
+        resource = 'images/iconmonstr-checkbox-30-240.png'
+        return QPixmap(self.get_resource(resource))
 
     @cached_property
     def main_window(self):
@@ -42,9 +50,14 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.ctx = ctx
         uic.loadUi(ctx.gui, self)
+
+        # Log feedback to gui
+        handler = FeedbackHandler(self.feedback)
+        handler.setLevel(INFO)
+        self.logger = self.configure_root_logger(handler)
+
         self.create_column_checkboxes()
 
-        self.statusBar().showMessage('Ready')
         self.inputButton.clicked.connect(self.select_input_file)
         self.outputButton.clicked.connect(self.select_output_folder)
         self.exitButton.clicked.connect(self.close)
@@ -52,35 +65,31 @@ class MainWindow(QMainWindow):
         # Configure check boxes
         self.summaries.setChecked(True)
         self.summaries.setEnabled(False)
-        self.summaries.toggled.connect(self.disable_if_last)
-        self.summaries.toggled.connect(self.depending_summary_checkboxes)
-        self.measurements.toggled.connect(self.disable_if_last)
-        self.measurements.toggled.connect(self.depending_measurement_checkboxes)
+        self.summaries.toggled.connect(self.disable_if_last_extractor)
+        self.measurements.toggled.connect(self.disable_if_last_extractor)
+
         self.startButton.clicked.connect(self.start)
 
     def create_column_checkboxes(self):
         for feature in SummaryExtractor().get_features_names():
             c = QCheckBox(feature)
+            c.toggled.connect(self.disable_if_last_summary_col)
             c.setChecked(True)
             self.summaryCols.addWidget(c)
         self.summaryCols.setEnabled(False)
         for feature in MeasurementExtractor().get_features_names():
             c = QCheckBox(feature)
+            c.toggled.connect(self.disable_if_last_measurement_col)
             c.setChecked(True)
-            c.setEnabled(False)
             self.measurementCols.addWidget(c)
 
     def start(self):
         input_file = self.inputLine.text()
         output_folder = self.outputLine.text()
-        if not os.path.isfile(input_file):
-            self.statusBar().showMessage('No valid input file!')
-        elif not os.path.isdir(output_folder):
-            self.statusBar().showMessage('No valid output directory!')
-        else:
-            extractors = self.get_extractors()
-            self.transformer = TableTransformer(input_file, *extractors)
-            self.transformer.run()
+        extractors = self.get_extractors()
+        self.transformer = TableTransformer(input_file, *extractors,
+                                            output_dir=output_folder)
+        self.transformer.run()
 
     def get_children(self, layout):
         children = []
@@ -93,7 +102,6 @@ class MainWindow(QMainWindow):
         if self.measurements.isChecked():
             me = MeasurementExtractor()
             checkboxes = self.get_children(self.measurementCols)
-            print(checkboxes)
             selected_cols = [c.text() for c in checkboxes if c.isChecked()]
             me.select_cols(selected_cols)
             extractors.append(me)
@@ -117,29 +125,38 @@ class MainWindow(QMainWindow):
         if path:
             self.outputLine.setText(path)
 
-    def disable_if_last(self):
-        if self.summaries.isChecked() and not self.measurements.isChecked():
-            self.summaries.setEnabled(False)
-        elif self.measurements.isChecked() and not self.summaries.isChecked():
-            self.measurements.setEnabled(False)
-        elif self.summaries.isChecked() and self.measurements.isChecked():
-            self.summaries.setEnabled(True)
-            self.measurements.setEnabled(True)
+    def disable_if_last_extractor(self):
+        self.disable_if_last_checked_in_layout(self.outputTables)
 
-    def depending_summary_checkboxes(self):
-        children = self.get_children(self.summaryCols)
-        if not self.summaries.isChecked():
-            for c in children:
-                c.setEnabled(False)
-        else:
-            for c in children:
-                c.setEnabled(True)
+    def disable_if_last_summary_col(self):
+        self.disable_if_last_checked_in_layout(self.summaryCols)
 
-    def depending_measurement_checkboxes(self):
-        children = self.get_children(self.measurementCols)
-        if not self.measurements.isChecked():
-            for c in children:
-                c.setEnabled(False)
+    def disable_if_last_measurement_col(self):
+        self.disable_if_last_checked_in_layout(self.measurementCols)
+
+    def disable_if_last_checked_in_layout(self, layout):
+        checkboxes = self.get_children(layout)
+        boxes_check = {box: box.isChecked() for box in checkboxes}
+        if sum(boxes_check.values()) == 1:
+            for box, checked in boxes_check.items():
+                if checked:
+                    box.setEnabled(False)
         else:
-            for c in children:
-                c.setEnabled(True)
+            for box, checked in boxes_check.items():
+                box.setEnabled(True)
+
+    def configure_root_logger(self, handler):
+        logger = getLogger('')
+        logger.setLevel(INFO)
+        logger.addHandler(handler)
+        return logger
+
+
+class FeedbackHandler(Handler):
+    def __init__(self, widget):
+        super().__init__()
+        self.widget = widget
+
+    def emit(self, record):
+        msg = self.format(record)
+        self.widget.appendPlainText(msg)

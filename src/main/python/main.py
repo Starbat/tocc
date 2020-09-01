@@ -1,7 +1,23 @@
 import sys
 import argparse
 from gui import AppContext
-from transformer import TableTransformer, get_extractors
+from logging import getLogger, StreamHandler, INFO, WARNING
+from transformer import TableTransformer, get_extractors, MaxLevelFilter
+
+
+def configure_root_logger():
+    logger = getLogger('')
+    logger.setLevel(INFO)
+
+    stdout_handler = StreamHandler(sys.stdout)
+    stdout_handler.addFilter(MaxLevelFilter(WARNING))
+    stdout_handler.setLevel(INFO)
+    logger.addHandler(stdout_handler)
+
+    stderr_handler = StreamHandler(sys.stderr)
+    stderr_handler.setLevel(WARNING)
+    logger.addHandler(stderr_handler)
+    return logger
 
 
 def main():
@@ -44,6 +60,7 @@ def main():
     args = parser.parse_args()
 
     if args.cli:
+        configure_root_logger()
         extractors = get_extractors(measurements=args.measurements,
                                     summaries=args.summaries)
         transformer = TableTransformer(args.cli[0], *extractors)

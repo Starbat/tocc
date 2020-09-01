@@ -1,24 +1,7 @@
-#!/usr/bin/env python3
-# This script reads a data table, transforms it and saves the results into a
-# new file.
-#
-# Only rows beginning with a date are filtered; TNb column is removed;
-# TIC, TC, TOC columns are cleared of text; header row is added;
-# date and time are put into different columns.
-#
-# In the name of the new file, the suffix is replaced by '_filtered.csv'. It is
-# saved to the same directory as the source file.
-#
-# Arguments:
-# 1. arg: name or path of the file to process
-#
-# author: Till Schröder
-# last edit: 25.08.2020
-
 import csv
-import sys
 import os
 import re
+from logging import getLogger, INFO
 from string import Template
 
 
@@ -36,55 +19,58 @@ class TableTransformer:
         self.output_template = Template(os.path.join(self.output_dir,
                                                      self.base_name) +
                                         '_${extraction}.csv')
+        self.logger = self._create_logger()
+
+    def _create_logger(self):
+        logger = getLogger(__name__)
+        logger.setLevel(INFO)
+        return logger
 
     def run(self):
-        if len(self.extractors) == 0:
-            sys.stderr.write('It must be determined which data should be ' +
-                             'extracted!\n')
-            sys.exit(1)
-        print(f'input file: {self.input_file}')
-        print(f'output directory: {self.output_dir}')
-    #    self.check_paths()
-        data = self.read_data()
-        for extractor in self.extractors:
-            extractor.extract(data=data)
-            table = extractor.create_table()
-            file = self.output_template.substitute(extraction=extractor.NAME)
-            self.write_table(table, file)
-        print('successfully completed')
+        if len(self.extractors) > 0:
+            self.logger.info(f'Input file: {self.input_file}')
+            self.logger.info(f'Output directory: {self.output_dir}')
+
+            data = self.read_data()
+            if data:
+                for extractor in self.extractors:
+                    extractor.extract(data=data)
+                    table = extractor.create_table()
+                    file = self.output_template.substitute(
+                                                    extraction=extractor.NAME)
+                    try:
+                        self.write_table(table, file)
+                    except FileExistsError as e:
+                        self.logger.error(e.args[0])
+        else:
+            self.logger.error('It must be determined which data should be ' +
+                              'extracted!')
 
     def read_data(self):
-        print('Reading input file.')
         try:
-            with open(self.input_file, mode='r', encoding='cp1252') as in_csv:
-                csv_reader = csv.reader(in_csv, delimiter=';')
+            with open(self.input_file, mode='r', encoding='cp1252') as file:
+                csv_reader = csv.reader(file, delimiter=';')
                 return [row for row in csv_reader if row]  # skip emptry rows
         except FileNotFoundError:
-            sys.stderr.write('A valid input file must be specified!\n')
-            sys.exit(1)
+            self.logger.error(f'Input file does not exist: {self.base_name}')
+            return None
+        except IsADirectoryError:
+            self.logger.error('A directory is not a valid input file!')
+            return None
 
     def write_table(self, table, file):
-        print(file)
-        print(f'Writing output file:\n{file}')
         if os.path.isfile(file):
-            sys.stderr.write('Output file already exists! Delete, move or '
-                             'rename existing file.\n')
-            sys.exit(1)
+            raise FileExistsError('Output file already exists: ',
+                                  os.path.basename(file))
         with open(file, mode='w', encoding='utf-8', newline='') as out_csv:
+            self.logger.info(f'Writing output file: {os.path.basename(file)}')
             csv_writer = csv.writer(out_csv, delimiter=';')
             for row in table:
                 csv_writer.writerow(row)
 
     def basename_excl_extension(self, path):
-        return re.match(self.BASENAME_REGEX, path)[2]
-
-    # def format(self):
-    #     # remove "TNb:" column
-    #     del row[8]
-    #     # put date and time in two columns
-    #     date_time = row.pop(0).split()
-    #     row.insert(0, date_time[1])
-    #     row.insert(0, date_time[0])
-    #     # remove text from "TIC:", "TC:", "TOC:" columns
-    #     for i in range(6,9):
-    #         row[i] = self._extract_number(row[i])
+        match = re.match(self.BASENAME_REGEX, path)
+        if match:
+            return match[2]
+        else:
+            return ''
