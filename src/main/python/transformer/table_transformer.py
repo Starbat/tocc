@@ -60,7 +60,7 @@ class TableTransformer:
 
     def write_table(self, table, file):
         if os.path.isfile(file):
-            raise FileExistsError('Output file already exists: ',
+            raise FileExistsError('Output file already exists: ' +
                                   os.path.basename(file))
         with open(file, mode='w', encoding='utf-8', newline='') as out_csv:
             self.logger.info(f'Writing output file: {os.path.basename(file)}')
