@@ -1,5 +1,16 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 from transformer.extractor import Extractor
+
+
+@patch('transformer.extractor.Extractor.select_cols')
+@patch('transformer.extractor.Extractor.extract')
+def test_init(mock_extract, mock_select_cols):
+    e = Extractor()
+    mock_select_cols.assert_called()
+    mock_extract.assert_not_called()
+    
+    e = Extractor(data='data')
+    mock_extract.assert_called()
 
 
 def test_select_cols_by_number(features):
@@ -74,8 +85,17 @@ def test_create_table():
     assert table[0] == e.get_header_row()
 
 
-def test_create_new_row():
-    pass
+def test_create_new_row(features, data_record):
+    features[0].selected = True
+    e = Extractor()
+    e.FEATURES = features
+
+    new_row = e._create_new_row(data_record)
+    assert new_row == [data_record[0], data_record[0]]
+
+    features[1].selected = True
+    new_row = e._create_new_row(data_record)
+    assert new_row == [data_record[0], data_record[0], data_record[1]]
 
 
 def test_get_features_names(features):

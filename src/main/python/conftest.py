@@ -5,16 +5,23 @@ from unittest.mock import Mock, PropertyMock
 @pytest.fixture
 def features():
     lt = lambda x, y: x.col < y.col
-    f1 = Mock(col=0, modifier='', selected=False)
+    duplicate = lambda x: (x, x)
+    identity = lambda x: x
+    f1 = Mock(col=0, modify=duplicate, selected=False)
     type(f1).name = PropertyMock(return_value='f1')
     f1.__lt__ = lt
     f1.get_new_cols = Mock(return_value=['a', 'b'])
 
-    f2 = Mock(name='f2', col=1, modifier='', selected=False)
+    f2 = Mock(col=1, modify=identity, selected=False)
     type(f2).name = PropertyMock(return_value='f2')
     f2.__lt__ = lt
     f2.get_new_cols = Mock(return_value=['c'])
     return (f1, f2)
+
+
+@pytest.fixture
+def data_record():
+    return ['x', 'y']
 
 
 @pytest.fixture
@@ -33,5 +40,4 @@ def summary_record():
 
 @pytest.fixture
 def data(measurement_record, summary_record):
-    data = [measurement_record, summary_record]
-    return data
+    return [measurement_record, summary_record]

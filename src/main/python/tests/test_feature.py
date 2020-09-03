@@ -20,7 +20,8 @@ def test_modify_if_modifier_is_not_set():
 
 @patch('transformer.feature.ModifierFactory.get_instance')
 def test_get_modifier(mock_get_instance):
-    modifier_factory = mock_get_instance.return_value = Mock()
+    modifier_factory = Mock()
+    mock_get_instance.return_value = modifier_factory
     f = Feature('date', 0)
 
     name = 'test name'
