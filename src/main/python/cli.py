@@ -1,11 +1,20 @@
 import sys
 import argparse
+from fbs_runtime.application_context.PyQt5 import ApplicationContext
 from logging import getLogger, StreamHandler, INFO, WARNING
 from transformer import TableTransformer, get_extractors, MaxLevelFilter
 
 
-class CLI:
+class AppContext(ApplicationContext):
+    pass
+
+
+class CLI():
     def __init__(self):
+        self.ctx = AppContext()
+        self.APPNAME = self.ctx.build_settings['app_name']
+        self.APPVERSION = self.ctx.build_settings['version']
+        self.APPAUTHOR = self.ctx.build_settings['author']
         self.logger = self.configure_root_logger()
         self.parser = self.configure_parser()
 
@@ -24,17 +33,15 @@ class CLI:
         return logger
 
     def configure_parser(self):
-        description = """Extract measurements or summaries to new csv tables.
-                         To run in gui mode specify no arguments.
-                         """
-        epilog = """tocc  Copyright (C) 2020  Till Schröder
-                    This program comes with ABSOLUTELY NO WARRANTY.
-                    This is free software, and you are welcome to redistribute it
-                    under certain conditions.
-                    See <https://www.gnu.org/licenses/gpl-3.0>.
-                 """
+        description = ('Extract measurements or summaries to new csv tables. '
+                       'To run in gui mode specify no arguments.')
+        epilog = (f'{self.APPNAME} {self.APPVERSION} Copyright (C) 2020 '
+                  f'{self.APPAUTHOR} This program comes with ABSOLUTELY NO '
+                  'WARRANTY. This is free software, and you are welcome to '
+                  'redistribute it under certain conditions. See '
+                  '<https://www.gnu.org/licenses/gpl-3.0>.')
 
-        parser = argparse.ArgumentParser(prog='tocc',
+        parser = argparse.ArgumentParser(prog=self.APPNAME,
                                          description=description,
                                          epilog=epilog)
 
@@ -43,22 +50,24 @@ class CLI:
                             metavar='file',
                             type=str,
                             nargs=1,
-                            help='Process specified file in command line mode.')
+                            help=('Process specified file in command line '
+                                  'mode.'))
         parser.add_argument('-s',
                             '--summaries',
                             action='store_true',
-                            help='Export summaries to csv.'
-                            )
+                            help='Export summaries to csv.')
         parser.add_argument('-m',
                             '--measurements',
                             action='store_true',
-                            help='Export measurements to csv.'
-                            )
+                            help='Export measurements to csv.')
         parser.add_argument('-o',
                             '--output',
                             metavar='dir',
                             nargs=1,
-                            help='Create output files in the specified directory.')
+                            help=('Write output files to the specified '
+                                  'directory.'))
+        parser.add_argument('--version', action='version',
+                            version=f'{self.APPNAME} {self.APPVERSION}')
 
         return parser
 
