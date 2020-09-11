@@ -23,8 +23,8 @@ dest. H2O;0,00000;1,62079;;0;258;0;25.03.2019 13:17
 
 **tocc extracted summaries**
 ```
-date;time;No;sample;method;n;DIC;DC;DOC;comment
-25.03.2019;13:17;02;dest. H2o;31;3;0,00;1,62;1,62;NA;
+date;time;No;sample;method;n;TIC;TC;TOC;TNb;comment
+25.03.2019;13:17;02;dest. H2O;31;3;0,00;1,62;1,62;NA;
 ```
 
 **tocc extracted single measurements**
