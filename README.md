@@ -1,4 +1,4 @@
-# tocc
+# ![icon](img/icon.png) tocc
 ## Description
 
 DIMATOC files contain results of single measurements as well as summaries of those measurements. In order to import these data easily into spreadsheets (Excel, Calc...) and other tools for data evaluation (R, Python...), you need to transform it into consistently formatted tables.
@@ -42,7 +42,7 @@ DIMATOC files are cp1252 encoded while tocc files are UTF-8 encoded for better i
 
 ## Graphical user interface
 
-![bild](img/gui.jpg)
+![gui](img/gui.jpg)
 
 
 ## Command line interface
@@ -52,7 +52,7 @@ Run the executable `tocc` or `tocc.exe` with `-h` flag for instructions.
 
 ## License
 
-Copyright (C) 2020  Till Schröder
+Copyright (C) 2021  Till Schröder
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
